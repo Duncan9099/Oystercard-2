@@ -11,17 +11,6 @@ describe Oystercard do
     expect(oystercard.balance).to eq 0
   end
 
-  it "creates empty journey history on intialisation" do
-    expect(subject.history).to be_empty
-  end
-
-  it "stores journey to history" do
-    subject.top_up(10)
-    subject.touch_in(entry_station)
-    subject.touch_out(exit_station)
-    expect(subject.history).to include(journey)
-  end
-
   describe '#add_money' do
     it 'adds amount to card' do
       oystercard.top_up(10)
@@ -35,12 +24,6 @@ describe Oystercard do
     end
   end
 
-  describe "#in_journey?" do
-    it "creates a in_journey instance variable" do
-      expect(subject.in_journey).to eq false
-    end
-  end
-
   describe "#touch_in" do
     it "throws error if insufficent balance" do
       expect { subject.touch_in(entry_station) } .to raise_error "Balance below minimum of #{Oystercard::MIN_BALANCE}"
@@ -48,12 +31,6 @@ describe Oystercard do
   end
 
   describe "#touch_out" do
-    it "touching out sets in_journey to false" do
-      subject.top_up(40)
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.in_journey).to eq false
-    end
     it "deducts minimum fare from balance when touching out" do
       subject.top_up(10)
       subject.touch_in(entry_station)
